@@ -24,6 +24,9 @@ const StyledTop = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  img {
+    width: 30px;
+  }
 `;
 const Spacer = styled.div`
   width: 100%;
