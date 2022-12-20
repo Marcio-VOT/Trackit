@@ -29,6 +29,7 @@ const StyledTop = styled.div`
   align-items: center;
   img {
     width: 30px;
+    border-radius: 50%;
   }
   h1 {
     font-family: "Playball";

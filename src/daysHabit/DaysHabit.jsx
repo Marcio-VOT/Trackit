@@ -8,6 +8,7 @@ import Top from "../top/Top";
 import Activity from "./Activity";
 import dayjs from "dayjs";
 import { useState } from "react";
+import styled from "styled-components";
 
 export default () => {
   const dayjs = require("dayjs");
@@ -48,24 +49,49 @@ export default () => {
   return (
     <>
       <Top />
-      <div>
+      <PorventageStyle>
         <h1>{dayjs().format("dddd, DD/MM")}</h1>
         <h2>{percentage}% dos hábitos concluídos</h2>
-        {!(dayHabit.length === 0) &&
-          dayHabit.map((a) => {
-            return (
-              <Activity
-                id={a.id}
-                name={a.name}
-                done={a.done}
-                currentSequence={a.currentSequence}
-                highestSequence={a.highestSequence}
-                key={a.id}
-              />
-            );
-          })}
-      </div>
+      </PorventageStyle>
+      {!(dayHabit.length === 0) &&
+        dayHabit.map((a) => {
+          return (
+            <Activity
+              id={a.id}
+              name={a.name}
+              done={a.done}
+              currentSequence={a.currentSequence}
+              highestSequence={a.highestSequence}
+              key={a.id}
+            />
+          );
+        })}
       <Footer />
     </>
   );
 };
+
+const PorventageStyle = styled.div`
+  margin-top: 28px;
+  margin-left: 17px;
+  margin-bottom: 28px;
+  h1 {
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22.976px;
+    line-height: 29px;
+    /* identical to box height */
+
+    color: #126ba5;
+  }
+  h2 {
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17.976px;
+    line-height: 22px;
+
+    color: #bababa;
+  }
+`;

@@ -12,9 +12,7 @@ export default () => {
     <>
       <Spacer />
       <FooterStyled>
-        <Link to={"/habitos"}>
-          <p>Hábitos</p>
-        </Link>
+        <Link to={"/habitos"}>Hábitos</Link>
         <Link to={"/hoje"}>
           <ProgressBarStyled>
             <CircularProgressbar
@@ -31,9 +29,7 @@ export default () => {
             />
           </ProgressBarStyled>
         </Link>
-        <Link to={"/historico"}>
-          <p>Histórico</p>
-        </Link>
+        <Link to={"/historico"}>Histórico</Link>
       </FooterStyled>
     </>
   );

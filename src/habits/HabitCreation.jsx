@@ -3,6 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { LoginContext } from "../contexts/UserData";
 
 export default ({ setAddHabit, setNewHabit, newHabit }) => {
@@ -31,7 +32,7 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
   }
 
   return (
-    <>
+    <CreationStyle>
       <div>
         <form onSubmit={handleSubmit}>
           <input
@@ -43,16 +44,96 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {dayList.map((a) => (
-            <DaysList day={a} days={days} setDays={setDays} />
-          ))}
-          <button onClick={(e) => clearCreation(e)}>Cancelar</button>{" "}
-          <button type="submit">Salvar</button>
+          <ButtonGoup>
+            {dayList.map((a) => (
+              <DaysList day={a} days={days} setDays={setDays} />
+            ))}
+          </ButtonGoup>
+          <ButtonGoupI>
+            <button className="calcel" onClick={(e) => clearCreation(e)}>
+              Cancelar
+            </button>{" "}
+            <button className="save" type="submit">
+              Salvar
+            </button>
+          </ButtonGoupI>
         </form>
       </div>
-    </>
+    </CreationStyle>
   );
 };
+const ButtonGoup = styled.div`
+  display: flex;
+  margin-left: 5%;
+  margin-top: 8px;
+`;
+const ButtonGoupI = styled.div`
+  display: flex;
+  margin-right: 5%;
+  justify-content: end;
+  margin-top: 29px;
+`;
+const CreationStyle = styled.div`
+  width: 90%;
+  height: 180px;
+  margin-top: 18px;
+  background: #ffffff;
+  border-radius: 5px;
+  margin-left: 5%;
+  input {
+    width: 90%;
+    margin-left: 5%;
+    height: 45px;
+    margin-top: 5%;
+    background: #ffffff;
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19.976px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #dbdbdb;
+  }
+
+  .save {
+    width: 84px;
+    height: 35px;
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15.976px;
+    line-height: 20px;
+    /* identical to box height */
+    width: 84px;
+    height: 35px;
+    background: #52b6ff;
+    border-radius: 4.63636px;
+    border-style: none;
+
+    text-align: center;
+
+    color: #ffffff;
+  }
+  .calcel {
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15.976px;
+    line-height: 20px;
+    /* identical to box height */
+    border-style: none;
+    text-align: center;
+    background-color: transparent;
+    margin-right: 23px;
+
+    color: #52b6ff;
+
+    text-align: center;
+  }
+`;
 
 function DaysList({ day, days, setDays }) {
   function daySelection(a, e) {
@@ -85,5 +166,21 @@ function DaysList({ day, days, setDays }) {
       dayL = "S";
       break;
   }
-  return <button onClick={(e) => daySelection(day, e)}>{dayL}</button>;
+  return <DayButton onClick={(e) => daySelection(day, e)}>{dayL}</DayButton>;
 }
+const DayButton = styled.button`
+  margin-right: 4px;
+  width: 30px;
+  height: 30px;
+  background: #ffffff;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  font-family: "Lexend Deca";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19.976px;
+  line-height: 25px;
+  /* identical to box height */
+
+  color: #dbdbdb;
+`;

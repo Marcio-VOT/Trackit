@@ -40,10 +40,15 @@ export default () => {
   return (
     <HabitsStyle>
       <Top />
-      <div>
-        <h1>Meus hábitos</h1>
-        <h1 onClick={() => setAddHabit(!addHabit)}>+</h1>
-      </div>
+      <h2>
+        Meus hábitos
+        <span>
+          <ion-icon
+            onClick={() => setAddHabit(!addHabit)}
+            name="add-outline"
+          ></ion-icon>
+        </span>
+      </h2>
       {addHabit && (
         <HabitCreation
           setAddHabit={setAddHabit}
@@ -74,5 +79,51 @@ export default () => {
   );
 };
 const HabitsStyle = styled.div`
-  height: 100%;
+  h2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 18px;
+    margin-left: 18px;
+    margin-top: 22px;
+
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22.976px;
+    line-height: 29px;
+    /* identical to box height */
+
+    color: #126ba5;
+  }
+  span > ion-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 35px;
+    background: #52b6ff;
+    border-radius: 4.63636px;
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26.976px;
+    line-height: 34px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #ffffff;
+  }
+  p {
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17.976px;
+    line-height: 22px;
+    margin-right: 18px;
+    margin-left: 18px;
+    margin-top: 22px;
+    color: #666666;
+  }
 `;
