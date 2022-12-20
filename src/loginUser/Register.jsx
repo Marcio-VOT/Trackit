@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { ThreeDots } from "react-loader-spinner";
 
 export default () => {
   const navigate = useNavigate();
@@ -10,14 +11,23 @@ export default () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
+  const [disable, setDisable] = useState(false);
+
   const URL =
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
 
   function handleSubmit(e) {
     e.preventDefault();
+    setDisable(true);
     const promisse = axios.post(URL, { email, name, image, password });
-    promisse.then(() => navigate("/"));
-    promisse.catch((err) => alert(err.response.data.message));
+    promisse.then(() => {
+      setDisable(false);
+      navigate("/");
+    });
+    promisse.catch((err) => {
+      setDisable(false);
+      alert(err.response.data.message);
+    });
   }
 
   return (
@@ -25,6 +35,7 @@ export default () => {
       <img src="https://cdn.discordapp.com/attachments/1024803000004391005/1053005438901297252/logo.png" />
       <form onSubmit={handleSubmit}>
         <input
+          disabled={disable}
           required
           placeholder="email"
           type="email"
@@ -34,6 +45,7 @@ export default () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          disabled={disable}
           required
           placeholder="senha"
           type="password"
@@ -43,6 +55,7 @@ export default () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
+          disabled={disable}
           required
           placeholder="nome"
           type="text"
@@ -52,6 +65,7 @@ export default () => {
           onChange={(e) => setName(e.target.value)}
         />
         <input
+          disabled={disable}
           required
           placeholder="foto"
           type="url"
@@ -60,7 +74,22 @@ export default () => {
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />
-        <button type="submit">Cadastrar</button>
+        <button disabled={disable} type="submit">
+          {disable ? (
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#FFFFFF"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          ) : (
+            "Cadastrar"
+          )}
+        </button>
         <Link to={"/"}>
           <p>Já tem uma conta? Faça login!</p>
         </Link>
@@ -92,6 +121,9 @@ const RegisterStyle = styled.div`
     border-radius: 5px;
   }
   button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 80%;
     height: 45px;
     margin-left: 10%;

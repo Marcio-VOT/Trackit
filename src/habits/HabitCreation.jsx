@@ -2,14 +2,15 @@ import axios from "axios";
 import React from "react";
 import { useContext } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { LoginContext } from "../contexts/UserData";
+import { ThreeDots } from "react-loader-spinner";
 
 export default ({ setAddHabit, setNewHabit, newHabit }) => {
   const [name, setName] = useState("");
   const [days, setDays] = useState([]);
   const dayList = [0, 1, 2, 3, 4, 5, 6];
+  const [disable, setDisable] = useState(false);
 
   const { config } = useContext(LoginContext);
 
@@ -21,14 +22,23 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
   }
   function handleSubmit(e) {
     e.preventDefault();
+    setDisable(true);
+
     const URL =
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const promisse = axios.post(URL, { name, days }, config);
     promisse.then((a) => {
       console.log(a.data);
       setNewHabit(!newHabit);
+      setDisable(false);
+      setName("");
+      setDays([]);
+      setAddHabit(false);
     });
-    promisse.catch((err) => console.log(err.response.data.message));
+    promisse.catch((err) => {
+      alert(err.response.data.message);
+      setDisable(true);
+    });
   }
 
   return (
@@ -36,6 +46,7 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
       <div>
         <form onSubmit={handleSubmit}>
           <input
+            disabled={disable}
             required
             placeholder="nome do hábito"
             type="text"
@@ -46,7 +57,12 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
           />
           <ButtonGoup>
             {dayList.map((a) => (
-              <DaysList day={a} days={days} setDays={setDays} />
+              <DaysList
+                day={a}
+                days={days}
+                setDays={setDays}
+                disabled={disable}
+              />
             ))}
           </ButtonGoup>
           <ButtonGoupI>
@@ -135,9 +151,11 @@ const CreationStyle = styled.div`
   }
 `;
 
-function DaysList({ day, days, setDays }) {
+function DaysList({ day, days, setDays, disable }) {
+  let [tag, setTag] = useState();
   function daySelection(a, e) {
     e.preventDefault();
+    setTag(a);
     days.includes(a)
       ? setDays(days.filter((d) => !(a === d)))
       : setDays([...days, a]);
@@ -166,13 +184,23 @@ function DaysList({ day, days, setDays }) {
       dayL = "S";
       break;
   }
-  return <DayButton onClick={(e) => daySelection(day, e)}>{dayL}</DayButton>;
+  return (
+    <DayButton
+      days={days}
+      tag={tag}
+      disabled={disable}
+      onClick={(e) => daySelection(day, e)}
+    >
+      {dayL}
+    </DayButton>
+  );
 }
 const DayButton = styled.button`
   margin-right: 4px;
   width: 30px;
   height: 30px;
-  background: #ffffff;
+  background: ${({ days, tag }) =>
+    days.includes(tag) ? "#CFCFCF" : "#ffffff"};
   border: 1px solid #d5d5d5;
   border-radius: 5px;
   font-family: "Lexend Deca";
