@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import styled from "styled-components";
+import { useContext } from "react";
+import { LoginContext } from "../contexts/UserData";
 
 export default () => {
+  const { percentage } = useContext(LoginContext);
   return (
     <>
       <Spacer />
@@ -15,7 +18,7 @@ export default () => {
         <Link to={"/hoje"}>
           <ProgressBarStyled>
             <CircularProgressbar
-              value="20"
+              value={percentage}
               text="Hoje"
               background
               backgroundPadding={6}
@@ -28,7 +31,7 @@ export default () => {
             />
           </ProgressBarStyled>
         </Link>
-        <Link to={"/"}>
+        <Link to={"/historico"}>
           <p>Histórico</p>
         </Link>
       </FooterStyled>
@@ -43,20 +46,27 @@ const ProgressBarStyled = styled.div`
 `;
 const FooterStyled = styled.div`
   a {
-    color: blue;
+    font-family: "Lexend Deca";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17.976px;
+    line-height: 22px;
+    text-align: center;
+
+    color: #52b6ff;
     text-decoration: none;
   }
   position: relative;
   position: fixed;
   width: 100%;
   bottom: 0;
-  height: 60px;
-  background-color: lightblue;
+  height: 70px;
+  background: #ffffff;
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
 const Spacer = styled.div`
   width: 100%;
-  height: 98px;
+  height: 108px;
 `;

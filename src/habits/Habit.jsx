@@ -4,11 +4,10 @@ import { useContext } from "react";
 import { LoginContext } from "../contexts/UserData";
 
 export default ({ name, days, id, setNewHabit, newHabit }) => {
-  const { token } = useContext(LoginContext);
+  const { config } = useContext(LoginContext);
   function deleteHabit(e) {
     e.preventDefault();
     const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`;
-    const config = { headers: { Authorization: `Bearer ${token}` } };
     const promisse = axios.delete(URL, config);
     promisse.then((a) => setNewHabit(!newHabit));
     promisse.catch((err) => console.log(err.response.data.message));

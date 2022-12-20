@@ -8,13 +8,14 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { LoginContext } from "../contexts/UserData";
+import styled from "styled-components";
 
 export default () => {
   const [newHabit, setNewHabit] = useState(false);
-  const { token } = useContext(LoginContext);
+  const { config, setDayHabit, setPercentage, loadDayHabit } =
+    useContext(LoginContext);
   const URL =
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-  const config = { headers: { Authorization: `Bearer ${token}` } };
   useEffect(() => {
     const promisse = axios.get(URL, config);
     promisse.then((a) =>
@@ -24,8 +25,20 @@ export default () => {
   }, [newHabit]);
   const [addHabit, setAddHabit] = useState(false);
   const [habitList, setHabitList] = useState([]);
+  useEffect(() => {
+    const URL =
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
+    const promisse = axios.get(URL, config);
+    promisse.then((a) => {
+      const auxTotal = a.data.length;
+      const auxDone = a.data.filter((a) => a.done === true).length;
+      setDayHabit(a.data);
+      setPercentage(((auxDone * 100) / auxTotal).toFixed(0));
+    });
+    promisse.catch((err) => console.log(err));
+  }, []);
   return (
-    <>
+    <HabitsStyle>
       <Top />
       <div>
         <h1>Meus hábitos</h1>
@@ -57,6 +70,9 @@ export default () => {
         </p>
       )}
       <Footer />
-    </>
+    </HabitsStyle>
   );
 };
+const HabitsStyle = styled.div`
+  height: 100%;
+`;

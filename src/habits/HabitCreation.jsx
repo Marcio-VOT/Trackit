@@ -10,19 +10,18 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
   const [days, setDays] = useState([]);
   const dayList = [0, 1, 2, 3, 4, 5, 6];
 
-  const { token } = useContext(LoginContext);
+  const { config } = useContext(LoginContext);
+
   function clearCreation(e) {
     e.preventDefault();
     setName("");
     setDays([]);
-
     setAddHabit(false);
   }
   function handleSubmit(e) {
     e.preventDefault();
     const URL =
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-    const config = { headers: { Authorization: `Bearer ${token}` } };
     const promisse = axios.post(URL, { name, days }, config);
     promisse.then((a) => {
       console.log(a.data);
