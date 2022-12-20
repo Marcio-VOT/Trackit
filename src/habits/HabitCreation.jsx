@@ -5,6 +5,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { LoginContext } from "../contexts/UserData";
 import { ThreeDots } from "react-loader-spinner";
+import { useEffect } from "react";
 
 export default ({ setAddHabit, setNewHabit, newHabit }) => {
   const [name, setName] = useState("");
@@ -12,7 +13,7 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
   const dayList = [0, 1, 2, 3, 4, 5, 6];
   const [disable, setDisable] = useState(false);
 
-  const { config } = useContext(LoginContext);
+  const { config, setDayHabit, setPercentage } = useContext(LoginContext);
 
   function clearCreation(e) {
     e.preventDefault();
@@ -34,10 +35,23 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
       setName("");
       setDays([]);
       setAddHabit(false);
+
+      useEffect(() => {
+        const URL =
+          "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
+        const promisse = axios.get(URL, config);
+        promisse.then((a) => {
+          const auxTotal = a.data.length;
+          const auxDone = a.data.filter((a) => a.done === true).length;
+          setDayHabit(a.data);
+          setPercentage(((auxDone * 100) / auxTotal).toFixed(0));
+        });
+        promisse.catch((err) => console.log(err));
+      }, []);
     });
     promisse.catch((err) => {
       alert(err.response.data.message);
-      setDisable(true);
+      setDisable(false);
     });
   }
 
@@ -70,7 +84,20 @@ export default ({ setAddHabit, setNewHabit, newHabit }) => {
               Cancelar
             </button>{" "}
             <button className="save" type="submit">
-              Salvar
+              {disable ? (
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#FFFFFF"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true}
+                />
+              ) : (
+                "Salvar"
+              )}
             </button>
           </ButtonGoupI>
         </form>
@@ -115,6 +142,9 @@ const CreationStyle = styled.div`
   }
 
   .save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 84px;
     height: 35px;
     font-family: "Lexend Deca";

@@ -49,9 +49,13 @@ export default () => {
   return (
     <>
       <Top />
-      <PorventageStyle>
+      <PorventageStyle percentage={percentage}>
         <h1>{dayjs().format("dddd, DD/MM")}</h1>
-        <h2>{percentage}% dos hábitos concluídos</h2>
+        <h2>
+          {!(percentage > 0)
+            ? "Nenhum hábito concluído ainda"
+            : `${percentage}% dos hábitos concluídos`}{" "}
+        </h2>
       </PorventageStyle>
       {!(dayHabit.length === 0) &&
         dayHabit.map((a) => {
@@ -92,6 +96,6 @@ const PorventageStyle = styled.div`
     font-size: 17.976px;
     line-height: 22px;
 
-    color: #bababa;
+    color: ${({ percentage }) => (percentage > 0 ? "#8FC549" : "#bababa")};
   }
 `;

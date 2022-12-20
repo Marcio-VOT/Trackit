@@ -8,10 +8,13 @@ export default ({ name, days, id, setNewHabit, newHabit }) => {
   const { config } = useContext(LoginContext);
   function deleteHabit(e) {
     e.preventDefault();
-    const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`;
-    const promisse = axios.delete(URL, config);
-    promisse.then((a) => setNewHabit(!newHabit));
-    promisse.catch((err) => console.log(err.response.data.message));
+
+    if (window.confirm("ten certeza que deseja deletar o seu hábito?")) {
+      const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`;
+      const promisse = axios.delete(URL, config);
+      promisse.then((a) => setNewHabit(!newHabit));
+      promisse.catch((err) => console.log(err.response.data.message));
+    }
   }
   return (
     <StyledHabit>
@@ -24,13 +27,27 @@ export default ({ name, days, id, setNewHabit, newHabit }) => {
         ></ion-icon>
       </div>
       <form>
-        <DayButton>D</DayButton>
-        <DayButton>S</DayButton>
-        <DayButton>T</DayButton>
-        <DayButton>Q</DayButton>
-        <DayButton>Q</DayButton>
-        <DayButton>S</DayButton>
-        <DayButton>S</DayButton>
+        <DayButton name={0} days={days} disabled>
+          D
+        </DayButton>
+        <DayButton name={1} days={days} disabled>
+          S
+        </DayButton>
+        <DayButton name={2} days={days} disabled>
+          T
+        </DayButton>
+        <DayButton name={3} days={days} disabled>
+          Q
+        </DayButton>
+        <DayButton name={4} days={days} disabled>
+          Q
+        </DayButton>
+        <DayButton name={5} days={days} disabled>
+          S
+        </DayButton>
+        <DayButton name={6} days={days} disabled>
+          S
+        </DayButton>
       </form>
     </StyledHabit>
   );
@@ -70,7 +87,8 @@ const DayButton = styled.button`
   margin-right: 4px;
   width: 30px;
   height: 30px;
-  background: #ffffff;
+  background: ${({ name, days }) =>
+    days.includes(name) ? "#CFCFCF" : "#ffffff"};
   border: 1px solid #d5d5d5;
   border-radius: 5px;
   font-family: "Lexend Deca";

@@ -19,11 +19,22 @@ export default ({ id, name, done, currentSequence, highestSequence }) => {
 
   return (
     <>
-      <StyledHabit>
+      <StyledHabit done={done} highestSequence={highestSequence}>
         <div>
           <h1> {name} </h1>
-          <h2>sequencia atual {currentSequence} </h2>
-          <h2> melhor sequencia {highestSequence} </h2>
+          <h2>
+            Sequência atual:{" "}
+            <span className="current">
+              {currentSequence} {currentSequence > 1 ? "dias" : "dia"}{" "}
+            </span>
+          </h2>
+          <h2>
+            {" "}
+            Seu recorde:{" "}
+            <span className="highest">
+              {highestSequence} {highestSequence > 1 ? "dias" : "dia"}{" "}
+            </span>
+          </h2>
         </div>
         <ion-icon
           onClick={(e) => setDone(e)}
@@ -46,6 +57,13 @@ const StyledHabit = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .current {
+    color: ${({ done }) => (done ? "#8FC549" : "#666666")};
+  }
+  .highest {
+    color: ${({ highestSequence }) =>
+      highestSequence >= 4 ? "#8FC549" : "#666666"};
+  }
   h1 {
     font-family: "Lexend Deca";
     font-style: normal;
@@ -68,8 +86,9 @@ const StyledHabit = styled.div`
   ion-icon {
     width: 69px;
     height: 69px;
-    background: #ebebeb;
+    background: ${({ done }) => (done ? "#8FC549" : "#EBEBEB")};
     border: 1px solid #e7e7e7;
     border-radius: 5px;
+    color: #ffffff;
   }
 `;
