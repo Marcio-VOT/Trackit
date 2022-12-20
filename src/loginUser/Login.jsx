@@ -35,7 +35,7 @@ export default () => {
       setToken(auxToken);
       setImage(answer.data.image);
       setName(answer.data.name);
-      navigate("/habitos");
+      navigate("/hoje");
       setDisable(false);
     });
     promisse.catch((err) => {
